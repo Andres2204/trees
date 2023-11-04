@@ -22,7 +22,6 @@ public class BinaryTree {
         }
     }
 
-
     // [=================== Methods ===================]
 
     public void addElement(char c, Node r) {
@@ -47,20 +46,51 @@ public class BinaryTree {
         }
     }
 
-    public int countRoots() {
+    public int countRoots() { return countRoots(root); }
+    public int countRoots(Node r) {
+        if (r != null && (r.getLeftChild() != null || r.getRightChild() != null)) {
+            return countRoots(r.getLeftChild()) + countRoots(r.getRightChild()) + 1;
+        } else
+            return 0;
+    }
 
+
+    public int countLeaves() { return countLeaves(root); }
+    public int countLeaves(Node r) {
+        if (r != null) {
+            if (r.getLeftChild() == null && r.getRightChild() == null)
+                return 1;
+            else
+                return countLeaves(r.getLeftChild()) + countLeaves(r.getRightChild());
+        }
         return 0;
     }
 
-    public int countLeaves() {
+    public Node getBrother(Node b) { return getBrother(root, b.getData()); }
+    public Node getBrother(char b) { return getBrother(root, b); }
+    public Node getBrother(Node r, char b) {
 
-        return 0;
-    }
+        if ( r != null) {
+            Node selected = null;
+            if (r.getData() > b) {
+                selected = getBrother(r.getLeftChild(), b);
+            } else if (r.getData() < b) {
+                selected = getBrother(r.getRightChild(), b);
+            } else if (r.getData() == b) {
+                return r;
+            }
 
-    public Node getBrother() {
+            if (selected != null) {
+                if (r.getLeftChild().getData()  == b) {
+                    selected =  r.getRightChild();
+                } else {
+                    selected = r.getLeftChild();
+                }
+            }
 
+            return selected;
+        }
 
-        
         return null;
     }
 
@@ -70,10 +100,45 @@ public class BinaryTree {
     }
 
     public ArrayList<Node> showAncestors() {
-        
+
         return null;
     }
 
+    // Read Methods
+
+    public String inorder() { return inorder(root, ""); }
+    public String inorder(Node r, String s) { // i - r - d
+        if (r != null) {
+            s = inorder(r.getLeftChild(), s);
+            s += r.getData();
+            s += inorder(r.getRightChild(), s);
+            return s;
+        }
+        return "";
+    }
+
+    public String postorder() { return postorder(root, ""); }
+    public String postorder(Node r, String s) { // i - d - r
+        if (r != null) {
+            s = postorder(r.getLeftChild(), s);
+            s += postorder(r.getRightChild(), s);
+            s += r.getData();
+            return s;
+        }
+        return "";
+
+    }
+
+    public String preorder() { return preorder(root, ""); }
+    public String preorder(Node r, String s) { // r - i - d
+        if (r != null) {
+            s += r.getData();
+            s = preorder(r.getLeftChild(), s);
+            s += preorder(r.getRightChild(), s);
+            return s;
+        }
+        return "";
+    }
 
     // [=================== Utitly ===================]
 
@@ -83,42 +148,39 @@ public class BinaryTree {
         if (p == null) {
             return;
         }
- 
+
         showTrunks(p.prev);
         System.out.print(p.str);
     }
 
-    void printTree(Node root, Trunk prev, boolean isLeft)
-    {
+    void printTree(Node root, Trunk prev, boolean isLeft) {
         if (root == null) {
             return;
         }
- 
+
         String prev_str = "    ";
         Trunk trunk = new Trunk(prev, prev_str);
- 
+
         printTree(root.getRightChild(), trunk, true);
- 
+
         if (prev == null) {
             trunk.str = "---";
-        }
-        else if (isLeft) {
+        } else if (isLeft) {
             trunk.str = ".---";
             prev_str = "   |";
-        }
-        else {
+        } else {
             trunk.str = "`---";
             prev.str = prev_str;
         }
- 
+
         showTrunks(trunk);
         System.out.println(" " + root.getData());
- 
+
         if (prev != null) {
             prev.str = prev_str;
         }
         trunk.str = "   |";
- 
+
         printTree(root.getLeftChild(), trunk, false);
     }
 
@@ -126,7 +188,6 @@ public class BinaryTree {
 
     public String showTree(Node r, String s) {
         if (r != null) {
-
 
             for (int i = 1; i <= 4; i++) {
                 System.out.println("lvl " + i + ": " + dataByLevel(i) + "\n");
@@ -150,37 +211,17 @@ public class BinaryTree {
 
     public String dataByLevel(Node r, int selectedlvl, int lvl, String s) {
         if (r != null) {
-            s = dataByLevel(r.getLeftChild(), selectedlvl, lvl+1, s);
+            s = dataByLevel(r.getLeftChild(), selectedlvl, lvl + 1, s);
             if (selectedlvl == lvl) {
-                s += r.getData(); return s;
-            };
-            s += dataByLevel(r.getRightChild(), selectedlvl, lvl+1, s);
+                s += r.getData();
+                return s;
+            }
+            ;
+            s += dataByLevel(r.getRightChild(), selectedlvl, lvl + 1, s);
         } else {
             return "";
         }
         return s;
-    }
-
-    // Read Methods
-
-    public String inorden(Node r, String s) { // i - r - d
-        if (r != null) {
-            s = inorden(r.getLeftChild(), s);
-            s += r.getData();
-            s += inorden(r.getRightChild(), s);
-            return s;
-        }
-        return "";
-    }
-
-    public String posorden() {
-
-        return "";
-    }
-
-    public String preorden() {
-
-        return "";
     }
 
     // [=================== Getters and Setters ===================]

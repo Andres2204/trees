@@ -4,7 +4,10 @@ public class App {
         BinaryTree bt = new BinaryTree("dcabgfh".toCharArray());
 
         bt.printTree(bt.getRoot(), null, false);
-
+        System.out.println(bt.countRoots(bt.getRoot()));
+        System.out.println(bt.countLeaves(bt.getRoot()));
+        System.out.println(bt.getBrother('f').getData());
+    
     }
 }
 
