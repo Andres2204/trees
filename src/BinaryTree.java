@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class BinaryTree {
     // [=================== Attributes ===================]
 
@@ -19,6 +21,9 @@ public class BinaryTree {
             // System.out.println(d);
         }
     }
+
+
+    // [=================== Methods ===================]
 
     public void addElement(char c, Node r) {
         if (r != null) {
@@ -42,14 +47,39 @@ public class BinaryTree {
         }
     }
 
-    // [=================== Methods ===================]
+    public int countRoots() {
+
+        return 0;
+    }
+
+    public int countLeaves() {
+
+        return 0;
+    }
+
+    public Node getBrother() {
+
+
+        
+        return null;
+    }
+
+    public int getLevel() {
+
+        return 0;
+    }
+
+    public ArrayList<Node> showAncestors() {
+        
+        return null;
+    }
+
 
     // [=================== Utitly ===================]
 
     // print tree
 
-    public static void showTrunks(Trunk p)
-    {
+    public static void showTrunks(Trunk p) {
         if (p == null) {
             return;
         }
@@ -140,6 +170,16 @@ public class BinaryTree {
             s += inorden(r.getRightChild(), s);
             return s;
         }
+        return "";
+    }
+
+    public String posorden() {
+
+        return "";
+    }
+
+    public String preorden() {
+
         return "";
     }
 
