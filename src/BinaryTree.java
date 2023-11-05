@@ -66,36 +66,42 @@ public class BinaryTree {
         return 0;
     }
 
-    public Node getBrother(Node b) { return getBrother(root, b.getData()); }
-    public Node getBrother(char b) { return getBrother(root, b); }
-    public Node getBrother(Node r, char b) {
+    public char getBrother(Node b) { return getBrother(root, b.getData(), '\0'); }
+    public char getBrother(char b) { return getBrother(root, b, '\0'); }
+    public char getBrother(Node r, char b, char s) {
 
         if ( r != null) {
-            Node selected = null;
+            if (r.getLeftChild() != null && r.getLeftChild().getData() == b) {
+                return r.getRightChild() != null ? r.getRightChild().getData() : 0;
+            } else if (r.getRightChild() != null && r.getRightChild().getData() == b) {
+                return r.getLeftChild() != null ? r.getLeftChild().getData() : 0 ;
+            }
+
             if (r.getData() > b) {
-                selected = getBrother(r.getLeftChild(), b);
+                s = getBrother(r.getLeftChild(), b, s);
             } else if (r.getData() < b) {
-                selected = getBrother(r.getRightChild(), b);
-            } else if (r.getData() == b) {
-                return r;
+                s = getBrother(r.getRightChild(), b, s);
             }
 
-            if (selected != null) {
-                if (r.getLeftChild().getData()  == b) {
-                    selected =  r.getRightChild();
-                } else {
-                    selected = r.getLeftChild();
-                }
-            }
-
-            return selected;
+            return s;
         }
 
-        return null;
+        return '\0';
     }
 
     public int getLevel() {
 
+        return 0;
+    }
+
+    public int getHeight(Node r) {
+        if (r != null) {
+            int leftHeigth = getHeight(r.getLeftChild()) + 1;
+            int rightHeigth = getHeight(r.getRightChild()) + 1;
+            if (rightHeigth > leftHeigth) {
+                return rightHeigth;
+            } else return leftHeigth;
+        }
         return 0;
     }
 
@@ -222,6 +228,22 @@ public class BinaryTree {
             return "";
         }
         return s;
+    }
+
+    // search 
+
+    public Node search(char c) { return search(root, c); }
+    public Node search(Node r, char c) {
+        if (r != null) {
+            if (r.getData() == c) {
+                return r;
+            } else if (r.getData() > c) {
+                return search(r.getLeftChild(), c);
+            } else if (r.getData() < c) {
+                return search(r.getRightChild(), c);
+            }
+        }
+        return null;
     }
 
     // [=================== Getters and Setters ===================]
