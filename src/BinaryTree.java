@@ -23,6 +23,34 @@ public class BinaryTree {
     }
 
     // [=================== Methods ===================]
+  
+    //  --- AVL --- 
+
+
+    public int balanceFactor(Node r) {
+        return getHeight(r.getLeftChild()) - getHeight(r.getRightChild());
+    }
+
+    // rotations
+
+    public void rotationLeft(Node q, Node s) {
+
+    }
+
+    public void rotationRight(Node q, Node s) {
+
+    }
+
+    public void doubleRotationLeft(Node q, Node s, Node r) {
+
+    }
+
+    
+    public void doubleRotationRight(Node q, Node s, Node r) {
+        
+    }
+    
+    // insert
 
     public void addElement(char c, Node r) {
         if (r != null) {
@@ -46,6 +74,8 @@ public class BinaryTree {
         }
     }
 
+    // count methods
+
     public int countRoots() { return countRoots(root); }
     public int countRoots(Node r) {
         if (r != null && (r.getLeftChild() != null || r.getRightChild() != null)) {
@@ -53,7 +83,6 @@ public class BinaryTree {
         } else
             return 0;
     }
-
 
     public int countLeaves() { return countLeaves(root); }
     public int countLeaves(Node r) {
@@ -65,6 +94,8 @@ public class BinaryTree {
         }
         return 0;
     }
+
+    // special getters
 
     public char getBrother(Node b) { return getBrother(root, b.getData(), '\0'); }
     public char getBrother(char b) { return getBrother(root, b, '\0'); }
