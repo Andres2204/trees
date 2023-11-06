@@ -4,12 +4,13 @@ public class App {
         BinaryTree bt = new BinaryTree("dcabgfh".toCharArray());
 
         bt.printTree(bt.getRoot(), null, false);
-        System.out.println("N padres: "+bt.countRoots(bt.getRoot()));
+        System.out.println("\nN padres: "+bt.countRoots(bt.getRoot()));
         System.out.println("N hojas: "+bt.countLeaves(bt.getRoot()));
         System.out.println("Hermano: "+bt.getBrother('g'));
 
         System.out.println("Height: "+bt.getHeight(bt.getRoot().getRightChild().getRightChild()));
         System.out.println("Buscar Nodo: "+ bt.search('g').getData());
+        System.out.println("Buscar padre: " + bt.searchParent('a').getData());
 
 
     }
