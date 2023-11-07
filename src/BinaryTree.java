@@ -236,9 +236,30 @@ public class BinaryTree {
         return 0;
     }
 
-    public ArrayList<Node> showAncestors() {
+    // public ArrayList<Node> showAncestors() {
 
-        return null;
+    //     return null;
+    // }
+
+    public void showAncestors(int objetivo) {
+        showAncestors(root, objetivo);
+    }
+
+    private boolean showAncestors(Node r, int objetivo) {
+
+        if (r == null) {
+            return false;
+        }
+
+        if (r.getData() == objetivo) {
+            return true;
+        }
+
+        if (showAncestors(r.getLeftChild(), objetivo) || showAncestors(r.getRightChild(), objetivo)) {
+            System.out.print(r.getData() + " ");
+            return true;
+        }
+        return false;
     }
 
     // Read Methods
