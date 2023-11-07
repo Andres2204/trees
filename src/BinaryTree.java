@@ -19,6 +19,7 @@ public class BinaryTree {
                 continue;
             addElement(d, root);
             System.out.println(d);
+            printTree(root, null, false);
             balanceTree(root);
         }
     }
@@ -121,7 +122,22 @@ public class BinaryTree {
     }
 
     public void doubleRotationRight(Node q, Node r, Node s) {
-        
+        if (q != null && r != null && s != null) {
+            Node subTreeRoot = searchParent(q);
+
+            if (subTreeRoot != null) {
+                if (subTreeRoot.getLeftChild() == q) {
+                    subTreeRoot.setLeftChild(s);
+                } else
+                    subTreeRoot.setRightChild(s);
+            } else
+                root = s;
+
+            q.setLeftChild(s.getRightChild());
+            s.setRightChild(q);
+            r.setRightChild(s.getLeftChild());
+            s.setLeftChild(r);
+        }
     }
     
     // insert
