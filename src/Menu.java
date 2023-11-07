@@ -11,7 +11,7 @@ public class Menu {
 
             try {
 
-                System.out.println("[============== Impresion del arbol ==============]\n\n");
+                System.out.println("\n[============== Impresion del arbol ==============]\n\n");
                 bt.printTree(bt.getRoot(), null, false);
 
                 System.out.print("\n\n" + mainMenu());
@@ -22,7 +22,8 @@ public class Menu {
                     // creation and insertion
 
                     case 1: // create tree
-
+                        System.out.print("Ingrese cadena para crear nuevo arbol: \s");
+                        bt = new BinaryTree(read.nextLine().toCharArray());
                         break;
 
                     case 2: // insert
@@ -46,16 +47,18 @@ public class Menu {
                     // element characteristics
 
                     case 5: // height
-                        System.out.print("Elemento a para buscar altura (caracter): \s");
-                        System.out.println(bt.getHeight(bt.search(read.next().charAt(0))));
+                        System.out.print("Elemento para mostrar altura (caracter): \s");
+                        System.out.println("Su altura es: "+bt.getHeight(bt.search(read.next().charAt(0))));
                         break;
 
                     case 6: // lvl
-                        System.out.print("Elemento a para buscar altura (caracter): \s");
-                        System.out.println(bt.getLevel(bt.search(read.next().charAt(0))));
+                        System.out.print("Elemento para mostrar altura (caracter): \s");
+                        System.out.println("Su nivel es: "+bt.getLevel(bt.search(read.next().charAt(0))));
                         break;
 
                     case 7: // Brother
+                        System.out.print("Elemento para encontrar hermano (caracter): \s");
+                        System.out.println("Su Hermano es: "+bt.getBrother(bt.search(read.next().charAt(0))));
                         break;
 
                     case 8: // cousins
