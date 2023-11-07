@@ -12,9 +12,14 @@ public class App {
         // System.out.println("Buscar Nodo: "+ bt.search('g').getData());
         System.out.println("Nivel: " + bt.getLevel('a'));
 
+        System.out.println("InOrden: "+bt.inorder());
 
+        Menu.mainMenu(bt);
     }
 }
+
+
+
 
 /*
     create tree
