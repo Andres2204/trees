@@ -15,11 +15,8 @@ public class BinaryTree {
         root = new Node(c[0]);
 
         for (char d : c) {
-            if (c[0] == d)
-                continue;
-            addElement(d, root);
-            System.out.println(d);
-            printTree(root, null, false);
+            if (c[0] == d) continue;
+            addElement(d);
             balanceTree(root);
         }
     }
@@ -51,13 +48,13 @@ public class BinaryTree {
         }
     }
 
-    public int balanceFactor(Node r) {
+    private int balanceFactor(Node r) {
         return getHeight(r.getLeftChild()) - getHeight(r.getRightChild());
     }
 
     // avl algoritm selection
 
-    public void avlAlgoritmSelection(Node q, Node r, Node s) {
+    private void avlAlgoritmSelection(Node q, Node r, Node s) {
         int qBalanceFactor = balanceFactor(q), rBalanceFactor = balanceFactor(r);
         if (qBalanceFactor == 2 && rBalanceFactor == 1) {
             rotationRight(q, r);
@@ -72,7 +69,7 @@ public class BinaryTree {
 
     // avl rotations
 
-    public void rotationLeft(Node q, Node r) {
+    private void rotationLeft(Node q, Node r) {
         if (q != null && r != null) {
             Node subTreeRoot = searchParent(q);
             Node s = r.getLeftChild();
@@ -87,7 +84,7 @@ public class BinaryTree {
         }
     }
 
-    public void rotationRight(Node q, Node r) {
+    private void rotationRight(Node q, Node r) {
         if (q != null && r != null) {
             Node subTreeRoot = searchParent(q);
             Node s = r.getRightChild();
@@ -104,7 +101,7 @@ public class BinaryTree {
         }
     }
 
-    public void doubleRotationLeft(Node q, Node r, Node s) { // p q r
+    private void doubleRotationLeft(Node q, Node r, Node s) { // p q r
 
         if (q != null && r != null && s != null) {
             Node subTreeRoot = searchParent(q);
@@ -141,19 +138,19 @@ public class BinaryTree {
     }
     
     // insert
-
-    public void addElement(char c, Node r) {
+    public void addElement(char c) { addElement(root, c); }
+    private void addElement(Node r, char c) {
         if (r != null) {
             if (r.getData() > c) {
                 if (r.getLeftChild() != null) {
-                    addElement(c, r.getLeftChild());
+                    addElement(r.getLeftChild(), c);
                 } else {
                     r.setLeftChild(new Node(c));
                     return;
                 }
             } else if (r.getData() < c) {
                 if (r.getRightChild() != null) {
-                    addElement(c, r.getRightChild());
+                    addElement(r.getRightChild(), c);
                 } else {
                     r.setRightChild(new Node(c));
                     return;
@@ -187,7 +184,7 @@ public class BinaryTree {
 
     public char getBrother(Node b) { return getBrother(root, b.getData(), '\0'); }
     public char getBrother(char b) { return getBrother(root, b, '\0'); }
-    public char getBrother(Node r, char b, char s) {
+    private char getBrother(Node r, char b, char s) {
 
         if ( r != null) {
             if (r.getLeftChild() != null && r.getLeftChild().getData() == b) {
@@ -208,11 +205,13 @@ public class BinaryTree {
         return '\0';
     }
 
+    public int getLevel(Node c) {
+        return getLevel(root, root.getData(), c.getData(), 1);
+    }
     public int getLevel(char data) {
         return getLevel(root, root.getData(), data, 1);
     }
-
-    public int getLevel(Node r, char nodeData, char data, int lvl) {
+    private int getLevel(Node r, char nodeData, char data, int lvl) {
 
         if (r != null) {
             if (r.getData() == data) {
@@ -245,7 +244,7 @@ public class BinaryTree {
     // Read Methods
 
     public String inorder() { return inorder(root, ""); }
-    public String inorder(Node r, String s) { // i - r - d
+    private String inorder(Node r, String s) { // i - r - d
         if (r != null) {
             s = inorder(r.getLeftChild(), s);
             s += r.getData();
@@ -256,7 +255,7 @@ public class BinaryTree {
     }
 
     public String postorder() { return postorder(root, ""); }
-    public String postorder(Node r, String s) { // i - d - r
+    private String postorder(Node r, String s) { // i - d - r
         if (r != null) {
             s = postorder(r.getLeftChild(), s);
             s += postorder(r.getRightChild(), s);
@@ -268,10 +267,10 @@ public class BinaryTree {
     }
 
     public String preorder() { return preorder(root, ""); }
-    public String preorder(Node r, String s) { // r - i - d
+    private String preorder(Node r, String s) { // r - i - d
         if (r != null) {
-            s += r.getData();
-            s = preorder(r.getLeftChild(), s);
+            s = ""+r.getData();
+            s += preorder(r.getLeftChild(), s);
             s += preorder(r.getRightChild(), s);
             return s;
         }
@@ -346,8 +345,7 @@ public class BinaryTree {
     public String dataByLevel(int selectedLvl) {
         return dataByLevel(root, selectedLvl, 1, "");
     }
-
-    public String dataByLevel(Node r, int selectedlvl, int lvl, String s) {
+    private String dataByLevel(Node r, int selectedlvl, int lvl, String s) {
         if (r != null) {
             s = dataByLevel(r.getLeftChild(), selectedlvl, lvl + 1, s);
             if (selectedlvl == lvl) {
@@ -366,7 +364,7 @@ public class BinaryTree {
     
     public Node search(Node c) { return search(root, c.getData()); }
     public Node search(char c) { return search(root, c); }
-    public Node search(Node r, char c) {
+    private Node search(Node r, char c) {
         if (r != null) {
             if (r.getData() == c) {
                 return r;
@@ -381,7 +379,7 @@ public class BinaryTree {
 
     public Node searchParent(Node c) { return searchParent(root, c.getData()); }
     public Node searchParent(char c) { return searchParent(root, c); }
-    public Node searchParent(Node r, char c) {
+    private Node searchParent(Node r, char c) {
         if (r != null) {
             if (r.getRightChild() != null && r.getRightChild().getData() == c) {
                 return r;
