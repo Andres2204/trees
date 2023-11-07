@@ -192,20 +192,6 @@ public class BinaryTree {
         return '\0';
     }
 
-    // public int getLevel(char d) { // el d es 1, el g,c es 2
-    //     int count = 0;
-        
-    //     if (root != null) {
-    //         if (d == root.getData()) {
-    //             count++;
-    //             return count;
-    //         } else {
-
-    //         }
-    //     }
-    //     return 0;
-    // }
-
     public int getLevel(char data) {
         return getLevel(root, root.getData(), data, 1);
     }
