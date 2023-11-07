@@ -15,10 +15,8 @@ public class BinaryTree {
         root = new Node(c[0]);
 
         for (char d : c) {
-            if (c[0] == d)
-                continue;
-            addElement(d, root);
-            System.out.println(d);
+            if (c[0] == d) continue;
+            addElement(d);
             balanceTree(root);
         }
     }
@@ -125,19 +123,19 @@ public class BinaryTree {
     }
     
     // insert
-
-    public void addElement(char c, Node r) {
+    public void addElement(char c) { addElement(root, c); }
+    private void addElement(Node r, char c) {
         if (r != null) {
             if (r.getData() > c) {
                 if (r.getLeftChild() != null) {
-                    addElement(c, r.getLeftChild());
+                    addElement(r.getLeftChild(), c);
                 } else {
                     r.setLeftChild(new Node(c));
                     return;
                 }
             } else if (r.getData() < c) {
                 if (r.getRightChild() != null) {
-                    addElement(c, r.getRightChild());
+                    addElement(r.getRightChild(), c);
                 } else {
                     r.setRightChild(new Node(c));
                     return;
@@ -241,8 +239,8 @@ public class BinaryTree {
     public String preorder() { return preorder(root, ""); }
     public String preorder(Node r, String s) { // r - i - d
         if (r != null) {
-            s += r.getData();
-            s = preorder(r.getLeftChild(), s);
+            s = ""+r.getData();
+            s += preorder(r.getLeftChild(), s);
             s += preorder(r.getRightChild(), s);
             return s;
         }
