@@ -18,37 +18,34 @@ public class BinaryTree {
             if (c[0] == d)
                 continue;
             addElement(d, root);
-            
-            // System.out.println(d);
+            System.out.println(d);
+            balanceTree(root);
         }
     }
 
     // [=================== Methods ===================]
   
     //  --- AVL --- 
-
-
     
     public void balanceTree(Node r) {
         if (r == null) return;
 
         balanceTree(r.getLeftChild());
         balanceTree(r.getRightChild());
-        
         int rBalanceFactor = balanceFactor(r);
-
         if (rBalanceFactor == 2 || rBalanceFactor == -2) {
-
             if (getHeight(r.getLeftChild()) > getHeight(r.getRightChild())) {
-
                 if (getHeight(r.getLeftChild().getRightChild()) > getHeight(r.getLeftChild().getLeftChild())) {
                     avlAlgoritmSelection(r, r.getLeftChild(), r.getLeftChild().getRightChild());
                 } else {
                     avlAlgoritmSelection(r, r.getLeftChild(), r.getLeftChild().getLeftChild());
                 }
-
             } else {
-
+                if (getHeight(r.getRightChild().getRightChild()) > getHeight(r.getRightChild().getLeftChild())) {
+                    avlAlgoritmSelection(r, r.getRightChild(), r.getRightChild().getRightChild());
+                } else {
+                    avlAlgoritmSelection(r, r.getRightChild(), r.getRightChild().getLeftChild());
+                }
             }
         }
     }
@@ -61,46 +58,69 @@ public class BinaryTree {
 
     public void avlAlgoritmSelection(Node q, Node r, Node s) {
         int qBalanceFactor = balanceFactor(q), rBalanceFactor = balanceFactor(r);
-        
-        if (qBalanceFactor == 2 && rBalanceFactor == 1 || qBalanceFactor == -2 && rBalanceFactor == -1) {
-
-        } else {
-            
+        if (qBalanceFactor == 2 && rBalanceFactor == 1) {
+            rotationRight(q, r);
+        } else if (qBalanceFactor == -2 && rBalanceFactor == -1) {
+            rotationLeft(q, r);
+        } else if (qBalanceFactor == -2 && rBalanceFactor == 1) {
+            doubleRotationLeft(q, r, s);
+        } else if (qBalanceFactor == 2 && rBalanceFactor == -1) {
+            doubleRotationRight(q, r, s);
         }
     }
 
-    // rotations
+    // avl rotations
 
-    public void rotationLeft(Node q, Node s) {
-        if (q != null && s != null) {
+    public void rotationLeft(Node q, Node r) {
+        if (q != null && r != null) {
             Node subTreeRoot = searchParent(q);
-            Node r = s.getLeftChild();
+            Node s = r.getLeftChild();
             if (subTreeRoot != null) {
-                if (subTreeRoot.getLeftChild() == q) {
-                    subTreeRoot.setLeftChild(q);
-                } else {
-                    subTreeRoot.setLeftChild(q);
-                }
-                s.setLeftChild(q);
-                q.setRightChild(r);
-            } else {
-                q.setRightChild(r);
-                s.setLeftChild(q);
-                root = s;
-            }
+                if (subTreeRoot.getRightChild() == q) {
+                    subTreeRoot.setRightChild(r);
+                } else subTreeRoot.setLeftChild(r);
+            } else root = r;
+            
+            r.setLeftChild(q);
+            q.setRightChild(s);
         }
     }
 
-    public void rotationRight(Node q, Node s) {
+    public void rotationRight(Node q, Node r) {
+        if (q != null && r != null) {
+            Node subTreeRoot = searchParent(q);
+            Node s = r.getRightChild();
+
+            if (subTreeRoot != null) {
+                if (subTreeRoot.getRightChild() == q) {
+                    subTreeRoot.setRightChild(r);
+                } else subTreeRoot.setLeftChild(r); 
+                
+            } else root = r;
+            r.setRightChild(q);
+            q.setLeftChild(s);
+
+        }
+    }
+
+    public void doubleRotationLeft(Node q, Node r, Node s) { // p q r
+
+        if (q != null && r != null && s != null) {
+            Node subTreeRoot = searchParent(q);
+            if  (subTreeRoot != null ) {
+                if (subTreeRoot.getLeftChild() == q) {
+                    subTreeRoot.setLeftChild(s);
+                } else subTreeRoot.setRightChild(s);
+            } else root = s;
+            q.setRightChild(s.getLeftChild());
+            s.setLeftChild(q);
+            r.setLeftChild(s.getRightChild());
+            s.setRightChild(r);
+        }
 
     }
 
-    public void doubleRotationLeft(Node q, Node s, Node r) {
-
-    }
-
-    
-    public void doubleRotationRight(Node q, Node s, Node r) {
+    public void doubleRotationRight(Node q, Node r, Node s) {
         
     }
     
@@ -122,9 +142,7 @@ public class BinaryTree {
                     r.setRightChild(new Node(c));
                     return;
                 }
-            } else {
-                System.out.println("wtf is that");
-            }
+            } else if (r.getData() == c) return;
         }
     }
 
