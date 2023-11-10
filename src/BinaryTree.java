@@ -159,6 +159,65 @@ public class BinaryTree {
         }
     }
 
+
+    // deletion methods
+    public void deleteElement(char e) { deleteElement(search(e)); }
+    public void deleteElement(Node e) {  deleteElement(e, true); }
+    private Node deleteElement(Node e, boolean substitute) {
+        if (e != null) {
+            
+            if (isLeaf(e)) {
+                Node parent = searchParent(e);
+                if (parent != null) {
+                    if (parent.getLeftChild() == e) parent.setLeftChild(null);
+                    else if(parent.getRightChild() == e) parent.setRightChild(null);
+                    return e;
+                } else root = null;
+
+            } else {
+
+                // buscar sustituto
+                Node toSubstitute = null;
+                if (!substitute && e.getRightChild() != null) {
+                    return deleteElement(e.getRightChild(), false);
+
+                } else if(!substitute && e.getRightChild() == null) {
+
+                    if (isLeaf(e)) {
+                        return deleteElement(toSubstitute, true);
+
+                    } else if (e.getLeftChild() != null) {
+                        substitute = true;
+                        toSubstitute = deleteElement(e.getLeftChild(), false);
+                    } else { 
+
+                        searchParent(e).setRightChild(null);
+                        return e;
+                    }
+
+                } else if (substitute) {
+                    toSubstitute = deleteElement(e.getLeftChild(), false);
+                }
+
+                if( toSubstitute != null) {
+                    Node parent = searchParent(e);
+                    if (parent != null) {
+                        if (parent.getLeftChild() == e) parent.setLeftChild(toSubstitute);
+                        else if(parent.getRightChild() == e) parent.setRightChild(toSubstitute);
+                    } else {
+                        root = toSubstitute;
+                    }
+                    toSubstitute.setLeftChild(e.getLeftChild());
+                    toSubstitute.setRightChild(e.getRightChild());
+                }
+
+                return e;
+            }
+        } return null;
+    }
+
+
+
     // count methods
 
     public int countRoots() { return countRoots(root); }
@@ -413,6 +472,12 @@ public class BinaryTree {
             }
         }
         return null;
+    }
+
+    // others
+
+    public boolean isLeaf(Node l) {
+        return (l.getLeftChild() == null && l.getRightChild() == null) ? true : false;
     }
 
     // [=================== Getters and Setters ===================]
